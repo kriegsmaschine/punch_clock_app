@@ -1,0 +1,6 @@
+*.pyc
+__pycache__
+kc_env
+db.sqlite3
+/static
+.DS_Store

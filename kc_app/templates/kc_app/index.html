@@ -1,0 +1,13 @@
+{% extends "kc_app\\base.html" %}
+
+{% block content %}
+
+  <div>
+    <form action="{% url 'kc_app:index' %}" method="post">
+      {% csrf_token %}
+      {{ form.as_p }}
+      <button name="submit">submit times</button>
+    </form>
+  </div>
+
+{% endblock content %}
