@@ -1,15 +1,60 @@
 {% extends "kc_app\\base.html" %}
+{% load bootstrap3 %}
+
+
+{% block header %}
+
+  <div class="jumbotron">
+    <h2>Instructions:</h2></br>
+    To enter another time select button 'Enter another time'.</br>
+  </div>
+
+{% endblock header %}
+
 
 {% block content %}
 
-  <p>Clock in time: {{ kc_form.hr_in }}:{{ kc_form.min_in }}</p>
-  <p>Time to work : {{ kc_form.hr_to_work }}:{{ kc_form.min_to_work }}</p>
-  <p>Clock out between: {{ punch_out.lower_hr }}:{{ punch_out.lower_min }} - 
-  						{{ punch_out.upper_hr }}:{{ punch_out.upper_min }}</p>
+<div class="panel panel-defaut">
+  <p>Clock in time: {{ kc_form.hr_in }}:
+    {% if kc_form.min_in < 10 %}
+      0{{ kc_form.min_in }}
+    {% else %}
+      {{ kc_form.min_in }}
+    {% endif %}
+  </p>
+
+  <p>Time to work : {{ kc_form.hr_to_work }}:
+    {% if kc_form.min_to_work < 10 %}
+      0{{ kc_form.min_to_work }}
+    {% else %}
+      {{ kc_form.min_to_work }}
+    {% endif %}
+  </p>
+  
+</div>
+  <p>Clock out between: 
+    {{ punch_out.lower_hr }}:
+
+    {% if punch_out.lower_min < 10 %}
+      0{{ punch_out.lower_min }} -
+    {% else %}
+      {{ punch_out.lower_min }} -
+    {% endif %} 
+
+    {{ punch_out.upper_hr }}:
+
+    {% if punch_out.upper_min < 10 %}
+      0{{ punch_out.upper_min }}
+    {% else %}
+      {{ punch_out.upper_min }}
+    {% endif %}
+
+  </p>
+  </br>
 
     <form action="{% url 'kc_app:index' %}">
       {% csrf_token %}
-      <button name="button">Enter another time</button>
+      <button name="button" class="btn btn-primary">Enter another time</button>
     </form>
 
 {% endblock content %}

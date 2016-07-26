@@ -1,4 +1,4 @@
-from kc_app.utilClass import Punch_In_Copy
+from kc_app.utilClass import Punch_In_Copy, Time_To_Leave
 
 def getClockOutTime(form):
 	'''
@@ -22,10 +22,11 @@ def getClockOutTime(form):
 
 #add 30 minutes to clock in time for the lunch break
 def checkTime(tform):
-	tform.min_in += 30
-	if tform.min_in > 59:
-		tform.hr_in += 1
-		tform.min_in -= 60
+	if tform.hr_in >= 6:
+		tform.min_in += 30
+		if tform.min_in > 59:
+			tform.hr_in += 1
+			tform.min_in -= 60
 
 def timeToWork(tform):
 	tdiffer = {'hours':0, 'minutes':0}
@@ -71,3 +72,42 @@ def formatOutput(tdiffer):
 			'upper_hr':upperHr, 'upper_min':upperMin}
 
 	return tfout
+
+
+'''
+
+
+#get time must leave by return total time worked from
+#	clock in to time to leave
+
+
+
+def getTimeDifference(tform):
+	tdiff = Time_To_Leave(0,0,0,0)
+
+	tdiff.min_in = tform.min_leave - tform.min_in
+	if tdiff.min_in < 0:
+		tdiff.min_in += 60
+		tdiff.hr_in  -= 1
+
+	if tform.hr_leave >= 1 and tform.hr_leave <= :
+		tdiff.hr_in = tform.hr_leave + 12 - tform.hr_in
+	else:
+		tdiff.hr_in = tform.hr_leave - tform.hr_in
+
+def getHoursWorked(form):
+	
+	#	repurpose variables
+	#	hr_to_work  = hr_leave
+	#	min_to_work = min_leave
+	
+
+	tform = Time_To_Leave(form['hr_in'].value(), form['min_in'].value(),
+				  		  form['hr_to_work'].value(), form['min_to_work'].value())
+
+	checkTime(tform)
+	getTimeDifference(tform)
+
+	return tform
+
+'''
