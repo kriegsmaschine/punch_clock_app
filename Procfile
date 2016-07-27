@@ -1,1 +1,1 @@
-web: gunicorn kronos_clock.wsgi --log-file -
+web: gunicorn kronos_clock.wsgi:application --log-file -
