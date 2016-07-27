@@ -131,26 +131,22 @@ BOOTSTRAP3 = {
     'include_jquery':True,
 }
 
+#heroku settings
+if os.getcwd() == '/app':
+    import dj_database_url
+    DATABASES = {
+        'default': dj_database_url.config(default='postgres://localhost')
+    }
 
+    #honor the 'X-Forwarded-Proto' header for request.is_secure().
+    SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 
-'''heroku settings'''
+    #allow all host headers.
+    ALLOWED_HOSTS = ['*']
 
-#update database configuration with $DATABASE_URL
-import dj_database_url
-db_from_env = dj_database_url.config(conn_max_age = 500)
-DATABASES['default'].update(db_from_env)
-
-PROJECT_ROOT = os.path.dirname(os.path.abspath(__file__))
-
-STATIC_ROOT = os.path.join(PROJECT_ROOT, 'staticfiles')
-STATIC_URL = '/static/'
-
-#extra places for collectstatic to find static files
-STATICFIELDS_DIRS = (
-    os.path.join(PROJECT_ROOT, 'static'),
-)
-
-#simplified static file serving
-#https://warehouse.python.org/project/whitenoise/
-
-STATICFILES_STORAGE = 'whitenoise.django.GzipManifestStaticFilesStorage'
+    #static asset configuration
+    BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+    STATIC_ROOT = 'staticfiles'
+    STATICFILES_DIRS = (
+        os.path.join(BASE_DIR, 'static'),
+    )
