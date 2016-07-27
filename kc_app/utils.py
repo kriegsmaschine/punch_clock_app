@@ -74,40 +74,46 @@ def formatOutput(tdiffer):
 	return tfout
 
 
+
+
+'''
+get time must leave by return total time worked from
+	clock in to time to leave
 '''
 
+def checkRemoveBreak(tdiff):
+	if tdiff.hr_leave >= 6:
+		tdiff.min_leave -= 30
 
-#get time must leave by return total time worked from
-#	clock in to time to leave
-
-
+		if tdiff.min_leave < 0:
+			tdiff.hr_leave -= 1
+			tdiff.min_leave += 60
 
 def getTimeDifference(tform):
 	tdiff = Time_To_Leave(0,0,0,0)
 
-	tdiff.min_in = tform.min_leave - tform.min_in
-	if tdiff.min_in < 0:
-		tdiff.min_in += 60
-		tdiff.hr_in  -= 1
-
-	if tform.hr_leave >= 1 and tform.hr_leave <= :
-		tdiff.hr_in = tform.hr_leave + 12 - tform.hr_in
+	tdiff.hr_leave = tform.hr_leave - tform.hr_in
+	if tdiff.hr_leave < 0:
+		tdiff.hr_leave = tform.hr_leave + 12 - tform.hr_in
 	else:
-		tdiff.hr_in = tform.hr_leave - tform.hr_in
+		tdiff.hr_leave = tform.hr_leave - tform.hr_in
+
+	tdiff.min_leave = tform.min_leave - tform.min_in
+	if tdiff.min_leave < 0:
+		tdiff.min_leave += 60
+		tdiff.hr_leave  -= 1
+
+	if tdiff.hr_leave <= 1:
+		tdiff.hr_leave += 12
+
+	checkRemoveBreak(tdiff)
+	return tdiff
 
 def getHoursWorked(form):
-	
-	#	repurpose variables
-	#	hr_to_work  = hr_leave
-	#	min_to_work = min_leave
-	
-
 	tform = Time_To_Leave(form['hr_in'].value(), form['min_in'].value(),
-				  		  form['hr_to_work'].value(), form['min_to_work'].value())
+				  		  form['hr_leave'].value(), form['min_leave'].value())
 
-	checkTime(tform)
-	getTimeDifference(tform)
+	diff = getTimeDifference(tform)
 
-	return tform
+	return diff
 
-'''

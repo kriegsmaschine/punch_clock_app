@@ -1,0 +1,56 @@
+{% extends "kc_app\\base.html" %}
+{% load bootstrap3 %}
+
+
+{% block header %}
+
+  <div class="jumbotron">
+    <h2>Instructions:</h2></br>
+    To enter another time select the button 'Enter another time'.
+  </div>
+
+{% endblock header %}
+
+
+
+{% block content %}
+
+  <div>
+    <p>Clock in at  : {{ kc_form.hr_in }}:
+      {% if kc_form.min_in < 10 %}
+        0{{ kc_form.min_in }}
+      {% else %}
+        {{ kc_form.min_in }}
+      {% endif %}
+    </p>
+
+    <p>Clock out at: {{ kc_form.hr_leave }}:
+      {% if kc_form.min_leave < 10 %}
+        0{{ kc_form.min_leave }}
+      {% else %}
+        {{ kc_form.min_leave }}
+      {% endif %}
+    </p>
+
+  </div>
+  <p>Hours worked: 
+
+  {% if kc_form.hr_leave == 0 and kc_form.min_leave == 0 %}
+    <a class="bg-danger">Enter clock out time</a> 
+  {% else %}
+    {{ hrs_worked.hr_leave }}:
+    {% if hrs_worked.min_leave < 10 %}
+      0{{ hrs_worked.min_leave }}
+    {% else %}
+      {{ hrs_worked.min_leave }}
+    {% endif %}
+  {% endif %}
+  </p>
+  </br>
+
+  <form action="{% url 'kc_app:leave_at' %}">
+    {% csrf_token %}
+    <button name="button" class="btn btn-primary">Enter another time</button>
+  </form>
+
+{% endblock content %}
