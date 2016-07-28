@@ -126,6 +126,8 @@ STATIC_ROOT = os.path.join(PROJECT_DIR, 'static')
 
 STATIC_URL = '/static/'
 
+STATICFILES_STORAGE = 'whitenoise.django.GzipManifestStaticFilesStorage'
+
 #settings for django-bootstrap3
 BOOTSTRAP3 = {
     'include_jquery':True,
