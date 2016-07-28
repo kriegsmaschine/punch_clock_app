@@ -14,7 +14,7 @@ from whitenoise.django import DjangoWhiteNoise
 
 #from dj_static import Cling
 
-#os.environ.setdefault("DJANGO_SETTINGS_MODULE", "kronos_clock.settings")
+os.environ.setdefault("DJANGO_SETTINGS_MODULE", "kronos_clock.settings")
 #application = Cling(get_wsgi_application())
 
 application = get_wsgi_application()
