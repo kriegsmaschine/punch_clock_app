@@ -1,1 +1,1 @@
-web: waitress-serve --port=$PORT kronos_clock.wsgi:application
+web: gunicorn kronos_clock.wsgi
