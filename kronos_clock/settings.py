@@ -115,8 +115,12 @@ USE_L10N = True
 USE_TZ = True
 
 
-# Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/1.9/howto/static-files/
+
+
+
+'''following code for push to heroku server'''
+
+
 
 
 STATIC_URL = '/static/'
@@ -136,6 +140,8 @@ BOOTSTRAP3 = {
 import dj_database_url
 #DATABASES['default'] = dj_database_url.config()
 
+#if statement used if app is on Heroku then use Postgres
+#otherwise use local SQlite3 database
 if os.getcwd() == "/app":
     DATABASES = {'default': dj_database_url.config(default='postgres://localhost')}
 
