@@ -22,7 +22,7 @@ def getClockOutTime(form):
 
 #add 30 minutes to clock in time for the lunch break
 def checkTime(tform):
-	if tform.hr_in >= 6:
+	if tform.hr_to_work >= 6:
 		tform.min_in += 30
 		if tform.min_in > 59:
 			tform.hr_in += 1
@@ -49,19 +49,26 @@ def timeToWork(tform):
 	return tdiffer
 
 def formatOutput(tdiffer):
-	upperHr = lowerHr = tdiffer['hours']
-	upperMin = tdiffer['minutes'] + 7
-	lowerMin = tdiffer['minutes'] - 7
+	if tdiffer['minutes'] > 59:
+		upperMin = tdiffer['minutes'] - 60
+		lowerMin = tdiffer['minutes'] - 60
+		upperHr  = lowerHr = tdiffer['hours'] + 1
+	else:	
+		upperHr = lowerHr = tdiffer['hours']
+		upperMin = lowerMin = tdiffer['minutes']
+	
+	upperMin += 7
+	lowerMin -= 7
 
-	if tdiffer['minutes'] + 7 > 59:
-		upperHr  = tdiffer['hours'] + 1
-		upperMin = tdiffer['minutes'] + 7 - 60
-		lowerMin = tdiffer['minutes'] - 7
+	#if tdiffer['minutes'] + 7 > 59:
+	if upperMin > 59:
+		upperHr  += 1
+		upperMin -= 60
 
-	if tdiffer['minutes'] - 7 < 0:
-		lowerHr  = tdiffer['hours'] - 1
-		lowerMin = tdiffer['minutes'] - 7 + 60
-		upperMin = tdiffer['minutes'] + 7
+	#if tdiffer['minutes'] - 7 < 0:
+	if lowerMin < 0:
+		lowerHr  -= 1
+		lowerMin += 60
 
 	if upperHr > 12:
 		upperHr -= 12
